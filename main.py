@@ -6,6 +6,7 @@ from firebase import Firebase
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import storage
 
 
 class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
@@ -16,9 +17,11 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         firebase_admin.initialize_app(cred)
         self.items = ["jacket", "sneakers", "shirt", "jeans", "t-shirts"]
         self.shops = {}
+        self.url = {}
         self.read_data()
         self.add_values()
         self.pushButton.pressed.connect(self.write_data)
+        self.firebase_check()
 
     def add_values(self):
         for shop in self.shops.values():
@@ -31,15 +34,8 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
             "apiKey": "AIzaSyAl0sJD8bl30gnWH9juh6pywzOzsuzSdso",
             "authDomain": "wear-by-weather.firebaseapp.com",
             "databaseURL": "https://wear-by-weather.firebaseio.com",
-            "storageBucket": "wear-by-weather.appspot.com",
+            "storageBucket": "wear-by-weather.appspot.com"
         }
-        firebase = Firebase(config)
-        db = firebase.database()
-        data = {"1": "nike",
-                "2": "залупа жени",
-                "3": "Гулькин хуй"}
-        db.child("shops").set(data)
-        print(db.child("shops").get().val())
 
     def write_data(self):
         db = firestore.client()
@@ -47,14 +43,20 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         doc_ref = db.collection('shops').document('shops')
         doc_ref.set(self.shops)
         self.comboBoxShop.clear()
+        doc_ref = db.collection("Links").document("links")
+        doc_ref.set(self.url)
         self.add_values()
 
     def read_data(self):
         db = firestore.client()
-        emp_ref = db.collection('shops')
-        docs = emp_ref.stream()
+        shops = db.collection("shops")
+        docs = shops.stream()
         for doc in docs:
             self.shops = doc.to_dict()
+        urls = db.collection("Links")
+        docs = urls.stream()
+        for doc in docs:
+            self.url = doc.to_dict()
 
 
 if __name__ == "__main__":
