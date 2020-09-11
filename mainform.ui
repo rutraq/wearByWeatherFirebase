@@ -35,16 +35,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEditUrl">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>50</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QComboBox" name="comboBoxItem">
     <property name="geometry">
      <rect>
@@ -92,16 +82,6 @@
      <string>Путь к одежде</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEditPath">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>50</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -118,6 +98,38 @@
     </property>
     <property name="text">
      <string>Add item</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditPath">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>50</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditUrl">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>50</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>10</pointsize>
+     </font>
     </property>
    </widget>
   </widget>
