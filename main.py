@@ -16,18 +16,21 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         cred = credentials.Certificate('wear-by-weather.json')
         firebase_admin.initialize_app(cred)
         self.items = ["jacket", "sneakers", "shirt", "jeans", "t-shirts"]
+        self.styles = ["Casual", "Sport", "Official"]
         self.shops = {}
         self.url = {}
         self.read_data()
         self.add_values()
         self.pushButton.pressed.connect(self.write_data)
-        self.firebase_check()
+        # self.firebase_check()
 
     def add_values(self):
         for shop in self.shops.values():
             self.comboBoxShop.addItem(shop)
         for item in self.items:
             self.comboBoxItem.addItem(item)
+        for style in self.styles:
+            self.comboBoxStyle.addItem(style)
 
     def firebase_check(self):
         config = {
@@ -36,6 +39,8 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
             "databaseURL": "https://wear-by-weather.firebaseio.com",
             "storageBucket": "wear-by-weather.appspot.com"
         }
+        fir = Firebase(config)
+        lis = fir.storage().child("Men/NormalBodyWeight/Casual/1/details")
 
     def write_data(self):
         db = firestore.client()
@@ -57,6 +62,11 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         docs = urls.stream()
         for doc in docs:
             self.url = doc.to_dict()
+
+        doc_ref = db.collection('Casual').document('2')
+        doc = doc_ref.get()
+        if doc.exists:
+            print(doc.to_dict())
 
 
 if __name__ == "__main__":
