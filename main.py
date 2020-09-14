@@ -54,7 +54,7 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
                 shop_number = k
         collection = "{0}-{1}-{2}".format(self.comboBoxGender.currentText(), self.comboBoxWeight.currentText(),
                                           self.comboBoxStyle.currentText())
-        items = self.document_read(collection, shop_number)
+        items = self.document_read(collection, self.lineEditStyleNumber.text())
         items[str(self.unique_number)] = "{0}{1}{2}".format(self.unique_number, self.comboBoxItem.currentText(),
                                                             shop_number)
         doc_ref = db.collection(collection).document(self.lineEditStyleNumber.text())
@@ -62,16 +62,13 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
 
         self.unique_number += 1
 
+        doc_ref = db.collection("UniqueNumber").document("UniqueNumber")
+        doc_ref.set({"1": self.unique_number})
+
     def read_data(self):
-        db = firestore.client()
         self.shops = self.standard_read("shops")
         self.url = self.standard_read("Links")
         self.unique_number = int(self.standard_read("UniqueNumber")['1'])
-
-        doc_ref = db.collection('Men-NormalBodyWeight-Casual').document('1')
-        doc = doc_ref.get()
-        if doc.exists:
-            print(doc.to_dict())
 
     @staticmethod
     def standard_read(collection):
@@ -85,10 +82,16 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
     @staticmethod
     def document_read(collection, number):
         db = firestore.client()
+        print(number)
         doc_ref = db.collection(collection).document(str(number))
         doc = doc_ref.get()
         if doc.exists:
+            print(doc.to_dict())
             return doc.to_dict()
+        else:
+            doc_ref = db.collection(collection).document(str(number))
+            doc_ref.set({})
+            return {}
 
 
 if __name__ == "__main__":

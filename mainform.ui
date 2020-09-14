@@ -173,11 +173,11 @@
      </font>
     </property>
     <property name="currentText">
-     <string>NomalBodyWeight</string>
+     <string>NormalBodyWeight</string>
     </property>
     <item>
      <property name="text">
-      <string>NomalBodyWeight</string>
+      <string>NormalBodyWeight</string>
      </property>
     </item>
     <item>
