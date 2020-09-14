@@ -1,12 +1,10 @@
 from PyQt5 import Qt, QtGui, QtCore
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QCheckBox
 import mainform
 from firebase import Firebase
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from firebase_admin import storage
 
 
 class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
@@ -15,15 +13,19 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         self.setupUi(self)
         cred = credentials.Certificate('wear-by-weather.json')
         firebase_admin.initialize_app(cred)
-        self.items = ["jacket", "sneakers", "shirt", "jeans", "t-shirts"]
+        self.items = ["jacket", "sneakers", "shirt", "jeans", "t-shirt"]
         self.styles = ["Casual", "Sport", "Official"]
         self.shops = {}
         self.url = {}
         self.unique_number = int
         self.read_data()
         self.add_values()
+
+        self.pushButton.setEnabled(False)
+
         self.pushButton.pressed.connect(self.write_data)
-        # self.firebase_check()
+        self.lineEditStyleNumber.textChanged.connect(self.switch_button_enabled)
+        self.lineEditUrl.textChanged.connect(self.switch_button_enabled)
 
     def add_values(self):
         for shop in self.shops.values():
@@ -42,6 +44,12 @@ class MainForm(QtWidgets.QMainWindow, mainform.Ui_MainWindow):
         }
         fir = Firebase(config)
         lis = fir.storage().child("Men/NormalBodyWeight/Casual/1/details")
+
+    def switch_button_enabled(self):
+        if self.lineEditUrl.text() != "" and self.lineEditStyleNumber.text() != "":
+            self.pushButton.setEnabled(True)
+        else:
+            self.pushButton.setEnabled(False)
 
     def write_data(self):
         db = firestore.client()

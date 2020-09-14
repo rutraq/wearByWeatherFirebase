@@ -92,6 +92,9 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.lineEditStyleNumber.setFont(font)
         self.lineEditStyleNumber.setObjectName("lineEditStyleNumber")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(620, 20, 111, 16))
+        self.label_2.setObjectName("label_2")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -110,5 +113,6 @@ class Ui_MainWindow(object):
         self.comboBoxWeight.setItemText(1, _translate("MainWindow", "BodyMassDeficiency"))
         self.comboBoxWeight.setItemText(2, _translate("MainWindow", "Overweight"))
         self.comboBoxWeight.setItemText(3, _translate("MainWindow", "Underweight"))
+        self.label_2.setText(_translate("MainWindow", "Номер стиля"))
 
 
